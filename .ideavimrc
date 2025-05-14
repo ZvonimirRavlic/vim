@@ -1,0 +1,15 @@
+:set relativenumber
+:set number set ideajoin
+:set hlsearch
+:set scrolloff=10
+:set showmode
+:set showcmd
+:set visualbell
+:set clipboard+=unnamed
+:set NERDTre
+
+:set which-key
+
+nnoremap <esc> :noh<return><esc>
+Plug 'preservim/nerdtree`
+map <c-t> :NERDTree<CR>
