@@ -13,3 +13,16 @@
 nnoremap <esc> :noh<return><esc>
 Plug 'preservim/nerdtree`
 map <c-t> :NERDTree<CR>
+
+
+set incsearch
+
+
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+
+
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
