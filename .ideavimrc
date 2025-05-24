@@ -1,5 +1,6 @@
 :set relativenumber
-:set number set ideajoin
+:set number
+:set ideajoin
 :set hlsearch
 :set scrolloff=10
 :set showmode
@@ -15,7 +16,7 @@ Plug 'preservim/nerdtree`
 map <c-t> :NERDTree<CR>
 
 
-set incsearch
+:set incsearch
 
 
 " Highlight copied text
