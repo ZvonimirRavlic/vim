@@ -8,17 +8,17 @@
 :set visualbell
 :set clipboard+=unnamed
 :set NERDTreeShowHidden
-
 :set which-key
+:set notimeout
 
 nnoremap <esc> :noh<return><esc>
-Plug 'preservim/nerdtree`
-map <c-t> :NERDTree<CR>
 
+map <c-t> :NERDTree<CR>
+let g:WhichKey_ShowVimActions = "true"
 
 :set incsearch
 
-
+Plug 'preservim/nerdtree'
 " Highlight copied text
 Plug 'machakann/vim-highlightedyank'
 " Commentary plugin
