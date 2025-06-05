@@ -11,7 +11,18 @@
 :set which-key
 :set notimeout
 
+let mapleader=" "
+
+nnoremap <leader>t :action ActivateTerminalToolWindow<CR>
+nnoremap <TAB> :action PreviousTab<CR>
+nnoremap <s-TAB> :action NextTab<CR>
 nnoremap <esc> :noh<return><esc>
+nnoremap <Leader>l  :action ReformatCode<CR>
+nnoremap <leader>o :action OptimizeImports<CR>
+nnoremap ge :action GotoNextError<CR>
+nnoremap gE :action GotoPreviousError<CR>
+nnoremap <leader>p :action SelectInProjectView<CR>
+nnoremap <leader>k :action CheckinProject<CR>
 
 map <c-t> :NERDTree<CR>
 let g:WhichKey_ShowVimActions = "true"
