@@ -19,14 +19,21 @@ nnoremap <s-TAB> :action NextTab<CR>
 nnoremap <esc> :noh<return><esc>
 nnoremap <Leader>l  :action ReformatCode<CR>
 nnoremap <leader>o :action OptimizeImports<CR>
-nnoremap ge :action GotoNextError<CR>
-nnoremap gE :action GotoPreviousError<CR>
 nnoremap <leader>p :action SelectInProjectView<CR>
 nnoremap <leader>k :action CheckinProject<CR>
 
 nnoremap <leader>e :action RecentFiles<CR>
 nnoremap <leader>f :action Find<CR>
 nnoremap <leader><s-f> :action FindInPath<CR>
+nnoremap <leader>r :action Run<CR>
+nnoremap <leader>d :action Debug<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gu :action GotoDeclaration<CR>
+nnoremap ge :action GotoNextError<CR>
+nnoremap gE :action GotoPreviousError<CR>
+nnoremap gn :action GotoClass<CR>
+nnoremap gf :action GotoFile<CR>
+
 map <c-t> :NERDTree<CR>
 let g:WhichKey_ShowVimActions = "true"
 
