@@ -28,6 +28,8 @@ nnoremap <c-k> <c-w>k
 
 nnoremap <TAB> :action PreviousTab<CR>
 nnoremap <s-TAB> :action NextTab<CR>
+nnoremap <return> :action Back<CR>
+nnoremap <delete> :action Forward<CR>
 
 nnoremap <Leader>n :action NextWindow<CR>
 
