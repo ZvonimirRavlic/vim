@@ -11,7 +11,6 @@
 :set NERDTreeShowHidden
 :set which-key
 :set notimeout
-:set sneak
 :set surround
 :set easymotion
 
@@ -25,14 +24,19 @@ nnoremap <leader>h :action MoveTabDown<CR>
 nnoremap <leader>u :action Unsplit<CR>
 nnoremap <leader>m :action MoveEditorToOppositeTabGroup<CR>
 
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+nnoremap <A-k> <C-w>k
+nnoremap <A-j> <C-w>j
+
 nnoremap <return> :action PreviousTab<CR>
 nnoremap <delete> :action NextTab<CR>
 
 sethandler <c-j> a:vim
 sethandler <c-k> a:vim
 
-nnoremap <c-j> :action Back<CR>
-nnoremap <c-k> :action Forward<CR>
+nnoremap <c-o> :action Back<CR>
+nnoremap <c-i> :action Forward<CR>
 
 nnoremap <Leader>q :action CloseContent<CR>
 nnoremap <Leader>qa :action CloseAllEditors<CR>
@@ -70,3 +74,10 @@ Plug 'tpope/vim-commentary'
 
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
+
+map <leader>rn <Action>(RenameElement)
+map <leader>rm <Action>(ExtractMethod)
+map <leader>rv <Action>(IntroduceVariable)
+map <leader>rf <Action>(IntroduceField)
+map <leader>rs <Action>(ChangeSignature)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
