@@ -2,6 +2,7 @@
 :set number
 :set ideajoin
 :set hlsearch
+:set incsearch
 :set scrolloff=10
 :set showmode
 :set showcmd
@@ -10,8 +11,13 @@
 :set NERDTreeShowHidden
 :set which-key
 :set notimeout
+:set sneak
+:set surround
+:set easymotion
 
 let mapleader=" "
+
+map <leader>j <Plug>(easymotion-s)
 
 nnoremap <leader>t :action ActivateTerminalToolWindow<CR>
 nnoremap <leader>v :action MoveTabRight<CR>
@@ -19,25 +25,20 @@ nnoremap <leader>h :action MoveTabDown<CR>
 nnoremap <leader>u :action Unsplit<CR>
 nnoremap <leader>m :action MoveEditorToOppositeTabGroup<CR>
 
+nnoremap <return> :action PreviousTab<CR>
+nnoremap <delete> :action NextTab<CR>
+
 sethandler <c-j> a:vim
 sethandler <c-k> a:vim
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
 
-nnoremap <TAB> :action PreviousTab<CR>
-nnoremap <s-TAB> :action NextTab<CR>
-nnoremap <return> :action Back<CR>
-nnoremap <delete> :action Forward<CR>
-
-nnoremap <Leader>n :action NextWindow<CR>
+nnoremap <c-j> :action Back<CR>
+nnoremap <c-k> :action Forward<CR>
 
 nnoremap <Leader>q :action CloseContent<CR>
 nnoremap <Leader>qa :action CloseAllEditors<CR>
 
 nnoremap <esc> :noh<return><esc>
-nnoremap <Leader>l  :action ReformatCode<CR>
+nnoremap <Leader>l :action ReformatCode<CR>
 nnoremap <leader>o :action OptimizeImports<CR>
 nnoremap <leader>p :action SelectInProjectView<CR>
 nnoremap <leader>k :action CheckinProject<CR>
@@ -47,7 +48,9 @@ nnoremap <leader>f :action Find<CR>
 nnoremap <leader><s-f> :action FindInPath<CR>
 nnoremap <leader>r :action Run<CR>
 nnoremap <leader>d :action Debug<CR>
+
 nnoremap gi :action GotoImplementation<CR>
+nnoremap gs :action GotoSuperMethod<CR>
 nnoremap gu :action GotoDeclaration<CR>
 nnoremap ge :action GotoNextError<CR>
 nnoremap gE :action GotoPreviousError<CR>
@@ -57,7 +60,6 @@ nnoremap gf :action GotoFile<CR>
 map <c-t> :NERDTree<CR>
 let g:WhichKey_ShowVimActions = "true"
 
-:set incsearch
 
 Plug 'preservim/nerdtree'
 " Highlight copied text
