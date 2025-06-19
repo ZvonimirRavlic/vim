@@ -50,8 +50,9 @@ nnoremap <leader>k :action CheckinProject<CR>
 nnoremap <leader>e :action RecentFiles<CR>
 nnoremap <leader>f :action Find<CR>
 nnoremap <leader><s-f> :action FindInPath<CR>
-nnoremap <leader>r :action Run<CR>
-nnoremap <leader>d :action Debug<CR>
+nnoremap <leader>ar :action Run<CR>
+nnoremap <leader>ad :action Debug<CR>
+nnoremap <leader>ac :action RedesignedRunConfigurationSelector<CR>
 
 nnoremap gi :action GotoImplementation<CR>
 nnoremap gs :action GotoSuperMethod<CR>
