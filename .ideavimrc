@@ -29,8 +29,8 @@ nnoremap <A-l> <C-w>l
 nnoremap <A-k> <C-w>k
 nnoremap <A-j> <C-w>j
 
-nnoremap <return> :action PreviousTab<CR>
-nnoremap <delete> :action NextTab<CR>
+nnoremap <c-A-h> :action PreviousTab<CR>
+nnoremap <c-A-l> :action NextTab<CR>
 
 sethandler <c-j> a:vim
 sethandler <c-k> a:vim
@@ -38,7 +38,7 @@ sethandler <c-k> a:vim
 nnoremap <c-o> :action Back<CR>
 nnoremap <c-i> :action Forward<CR>
 
-nnoremap <Leader>q :action CloseContent<CR>
+nnoremap <D-w> :action CloseContent<CR>
 
 nnoremap <esc> :noh<return><esc>
 nnoremap <Leader>l :action ReformatCode<CR>
