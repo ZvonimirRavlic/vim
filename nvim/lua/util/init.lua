@@ -304,6 +304,96 @@ function M.goto_class()
   }):find()
 end
 
+-- The breakpoint on the cursor line, if any
+local function breakpoint_here()
+  local buf = vim.api.nvim_get_current_buf()
+  local line = vim.api.nvim_win_get_cursor(0)[1]
+  for _, bp in ipairs(require("dap.breakpoints").get(buf)[buf] or {}) do
+    if bp.line == line then
+      return bp
+    end
+  end
+  return nil
+end
+
+-- Breakpoint condition (Java expression); prefilled when editing an existing one
+function M.conditional_breakpoint()
+  local existing = breakpoint_here()
+  vim.ui.input({ prompt = "Condition: ", default = existing and existing.condition or "" }, function(condition)
+    if condition ~= nil and condition ~= "" then
+      require("dap").set_breakpoint(condition)
+      require("persistent-breakpoints.api").breakpoints_changed_in_current_buffer()
+    end
+  end)
+end
+
+-- Log point: prints the message when the line runs, without stopping. Use {expr} for values.
+function M.log_point()
+  local existing = breakpoint_here()
+  vim.ui.input({ prompt = "Log message: ", default = existing and existing.logMessage or "" }, function(message)
+    if message ~= nil and message ~= "" then
+      require("dap").set_breakpoint(nil, nil, message)
+      require("persistent-breakpoints.api").breakpoints_changed_in_current_buffer()
+    end
+  end)
+end
+
+-- Cycle the Codeium suggestion; returns true when one was shown (stops the blink key chain)
+function M.cycle_ai_suggestion(delta)
+  local virtual_text = package.loaded["codeium.virtual_text"]
+  if virtual_text == nil or virtual_text.get_current_completion_item() == nil then
+    return false
+  end
+  vim.schedule(function()
+    virtual_text.cycle_completions(delta)
+  end)
+  return true
+end
+
+-- View Breakpoints: picker over all breakpoints, Enter jumps to one
+function M.list_breakpoints()
+  local items = {}
+  for bufnr, bps in pairs(require("dap.breakpoints").get()) do
+    for _, bp in ipairs(bps) do
+      local text = vim.trim(vim.api.nvim_buf_get_lines(bufnr, bp.line - 1, bp.line, false)[1] or "")
+      if bp.condition then
+        text = text .. "  [if " .. bp.condition .. "]"
+      end
+      if bp.logMessage then
+        text = text .. "  [log " .. bp.logMessage .. "]"
+      end
+      table.insert(items, {
+        bufnr = bufnr,
+        filename = vim.api.nvim_buf_get_name(bufnr),
+        lnum = bp.line,
+        col = 1,
+        text = text,
+      })
+    end
+  end
+  if #items == 0 then
+    vim.notify("No breakpoints", vim.log.levels.INFO)
+    return
+  end
+  table.sort(items, function(a, b)
+    if a.filename ~= b.filename then
+      return a.filename < b.filename
+    end
+    return a.lnum < b.lnum
+  end)
+
+  local conf = require("telescope.config").values
+  require("telescope.pickers").new({}, {
+    prompt_title = "Breakpoints",
+    finder = require("telescope.finders").new_table({
+      results = items,
+      entry_maker = require("telescope.make_entry").gen_from_quickfix({}),
+    }),
+    sorter = conf.generic_sorter({}),
+    previewer = conf.qflist_previewer({}),
+  }):find()
+end
+
 -- GotoRelated: class <-> test (Java/Kotlin), component siblings (TS/Angular)
 function M.goto_related()
   local name = vim.fn.expand("%:t:r")

@@ -77,8 +77,9 @@ return {
         preset = "enter",
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<Tab>"] = { "select_and_accept", "fallback" },
-        ["<A-j>"] = { "select_next", "fallback" },
-        ["<A-k>"] = { "select_prev", "fallback" },
+        -- Menu open: move in the menu; else AI suggestion shown: cycle it; else EditorDown/Up
+        ["<A-j>"] = { "select_next", function() return require("util").cycle_ai_suggestion(1) end, "fallback" },
+        ["<A-k>"] = { "select_prev", function() return require("util").cycle_ai_suggestion(-1) end, "fallback" },
       },
       completion = { documentation = { auto_show = true } },
       signature = { enabled = true }, -- Parameter info

@@ -69,7 +69,7 @@ Leader is `Space`. `notimeout` is on, like in IdeaVim, and which-key pops up rig
 | `Space f` | Find | Telescope fuzzy find in the current buffer | ≈ |
 | `Space F` | FindInPath | Telescope live_grep (ripgrep) | ✅ |
 | `Space ar` | Run | reruns the last run configuration (asks the first time) | ≈ |
-| `Space ad` | Debug | `dap.continue()`; Java main classes are detected automatically by jdtls | ✅ |
+| `Space ad` | Debug | starts debugging, or resumes when stopped at a breakpoint (`dap.continue()`); Java main classes are detected automatically by jdtls | ✅ |
 | `Space ac` | Run configuration selector | picker: Gradle bootRun/build/test/clean build, Maven spring-boot:run/test/install, every `npm` script, JUnit class or nearest method (Java buffer), custom command | ≈ |
 | `Space as` | Stop | sends Ctrl-C to the run terminal and stops the debug session | ✅ |
 | `gi` | GotoImplementation | Telescope LSP implementations | ✅ |
@@ -126,11 +126,32 @@ Leader is `Space`. `notimeout` is on, like in IdeaVim, and which-key pops up rig
 | `Space ,` | Open tabs (buffer picker) |
 | `Space .` | Resume the last Telescope search |
 | `Space ?` | Search keymaps |
-| `Space ab` | Toggle breakpoint |
+| `Space ab` | Toggle breakpoint. Breakpoints are **saved per project folder** and come back after a restart |
+| `Space ax` | Remove all breakpoints |
+| `Space aB` | All breakpoints in a picker (file, line, code, condition / log message); `Enter` jumps there |
+| `Space ae` | Conditional breakpoint: asks for a Java expression (`plantId == 42`); on an existing breakpoint it prefills the condition to edit |
+| `Space al` | Log point: prints a message when the line runs, without stopping; `{expr}` inserts values (`value is {x}`) |
+| `Space an` / `Space ai` / `Space ao` | Step over (next) / into / out, no F-keys needed |
 | `Space au` | Toggle the debugger UI (it also opens and closes by itself) |
 | `F8` / `F7` / `Shift F8` / `F9` | Step over / into / out / resume (IntelliJ macOS debug keys) |
 
-Behaviour extras: **autosave** when leaving a buffer or when the terminal loses focus (like IntelliJ), files changed
+### Popular plugins (beyond IntelliJ)
+
+| Key | Plugin | What |
+|---|---|---|
+| (automatic) | treesitter-context | Current class/method signature stays pinned at the top while scrolling (IntelliJ sticky lines) |
+| `af` / `if`, `ac` / `ic`, `aa` / `ia` | treesitter-textobjects | Function / class / parameter text objects: `daf` delete method, `vic` select class body, `cia` change argument |
+| `]m` / `[m`, `]M` / `[M` | treesitter-textobjects | Next / previous method start, method end |
+| `]c` / `[c` | treesitter-textobjects | Next / previous class |
+| `Space n`, `]t` / `[t` | todo-comments | List all TODO/FIXME (IntelliJ TODO window); jump to next / previous |
+| `Space U` | undotree | Undo history tree (roughly IntelliJ Local History) |
+| `-` | oil.nvim | Open the current file's folder as an editable buffer: rename/delete/move files by editing lines, `:w` applies |
+| `Space ba`, `Space bb`, `Space 1`–`4` | harpoon | Pin the current file, show pinned files (reorder/delete there), jump to pinned file 1–4 |
+| (start screen) | snacks dashboard | Shown when the folder has no saved session: find file, recent, grep, restore session, config |
+| (automatic) | noice.nvim | Command line as a centred popup, nicer messages and LSP hover |
+| `Tab` / `Ctrl l` (insert) | windsurf.nvim (Codeium) | Accept the AI suggestion. `Tab` accepts the completion menu first if it's open, then the AI suggestion, otherwise inserts a tab; `Alt j` / `Alt k` (or `Alt ]` / `Alt [`) cycle suggestions when no completion menu is open, `Ctrl ]` dismisses. **Run `:Codeium Auth` once** to sign in |
+
+Behaviour extras: **session restore** (start `nvim` with no arguments in a project folder and your files, splits and cursor positions come back, like reopening an IntelliJ project; `nvim somefile` starts fresh; the project tree and terminals aren't restored), breakpoint signs (`●` breakpoint, `◆` conditional, `◉` log point), **autosave** when leaving a buffer or when the terminal loses focus (like IntelliJ), files changed
 on disk reload automatically, inline git blame (GitToolBox), rainbow brackets, indent guides, auto-closing brackets,
 Gruvbox Dark Hard (your IntelliJ scheme), parameter hints while typing.
 
@@ -145,7 +166,6 @@ Gruvbox Dark Hard (your IntelliJ scheme), parameter hints while typing.
 
 | IntelliJ thing | Why / alternative |
 |---|---|
-| Codeium / Full Line / AI inline completion | Not installed. `windsurf.nvim` or `copilot.lua` can be added |
 | SonarLint | `sonarlint.nvim` exists but needs extra setup, so it's left out |
 | JPA Buddy, RoboPOJOGenerator, Builder generator, java2json | No equivalent. jdtls code actions can generate getters/setters/constructors/`toString`/`equals` (`Alt Enter`) |
 | MavenHelper (dependency tree) | Run `./gradlew dependencies` or `mvn dependency:tree` through `Space ac` → Custom command |
@@ -185,7 +205,9 @@ nvim/
     │   ├── git.lua           # gitsigns, fugitive, diffview, lazygit, octo
     │   ├── lsp.lua           # mason, LSP servers, blink.cmp, conform, treesitter
     │   ├── java.lua          # nvim-jdtls (Lombok, debug + JUnit bundles)
-    │   └── dap.lua           # debugger + UI
+    │   ├── dap.lua           # debugger + UI + persistent breakpoints
+    │   ├── session.lua       # restore the last session per folder
+    │   └── extras.lua        # context, textobjects, todo, undotree, oil, harpoon, dashboard, noice, codeium
     └── util/
         ├── init.lua          # IntelliJ tab/split/goto helpers
         ├── run.lua           # run configurations
