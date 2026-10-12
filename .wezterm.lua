@@ -50,6 +50,8 @@ config.keys = {
 	nvim_aware("t", "CMD", act.SpawnTab("CurrentPaneDomain"), act.SendString("\x1b[116;9u")),
 	-- Cmd W in nvim = close editor/terminal tab (arrives as <D-w>)
 	nvim_aware("w", "CMD", act.CloseCurrentTab({ confirm = true }), act.SendString("\x1b[119;9u")),
+	-- Always open a new WezTerm tab, even when nvim is running
+	{ key = "t", mods = "CMD|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
 	-- Always switch WezTerm tabs, even when nvim is running
 	{ key = "h", mods = "CMD|SHIFT", action = act.ActivateTabRelative(-1) },
 	{ key = "l", mods = "CMD|SHIFT", action = act.ActivateTabRelative(1) },
