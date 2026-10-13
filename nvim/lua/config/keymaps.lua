@@ -135,9 +135,27 @@ map("n", "<leader>/", function() return require("vim._comment").operator() .. "_
 map("n", "<D-/>", function() return require("vim._comment").operator() .. "_" end, { expr = true, desc = "Comment line" })
 map("x", "<leader>/", "gc", { remap = true, desc = "Comment selection" })
 map("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
-map("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Diff working tree" })
+map("n", "<leader>gd", function()
+  if require("diffview.lib").get_current_view() then
+    vim.cmd("DiffviewClose")
+  else
+    vim.cmd("DiffviewOpen")
+  end
+end, { desc = "Diff working tree (toggle)" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "File history" })
 map("n", "<leader>gl", "<cmd>Gitsigns blame_line<cr>", { desc = "Blame line" })
+-- Hunks (changed blocks): j/k instead of ]h/[h, brackets are awkward on a Corne
+map("n", "<leader>gj", function() require("gitsigns").nav_hunk("next") end, { desc = "Next change" })
+map("n", "<leader>gk", function() require("gitsigns").nav_hunk("prev") end, { desc = "Previous change" })
+map("n", "<leader>gv", function() require("gitsigns").preview_hunk() end, { desc = "Preview change" })
+map("n", "<leader>gs", function() require("gitsigns").stage_hunk() end, { desc = "Stage / unstage change" })
+map("n", "<leader>gx", function() require("gitsigns").reset_hunk() end, { desc = "Revert change" })
+map("x", "<leader>gs", function()
+  require("gitsigns").stage_hunk({ vim.fn.line("v"), vim.fn.line(".") })
+end, { desc = "Stage selected lines" })
+map("x", "<leader>gx", function()
+  require("gitsigns").reset_hunk({ vim.fn.line("v"), vim.fn.line(".") })
+end, { desc = "Revert selected lines" })
 map("n", "<leader>x", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Problems" })
 map("n", "<leader>?", tb("keymaps"), { desc = "Search keymaps" })
 map("n", "<leader>,", tb("buffers"), { desc = "Open tabs" })

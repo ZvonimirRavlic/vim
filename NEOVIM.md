@@ -120,8 +120,12 @@ Leader is `Space`. `notimeout` is on, like in IdeaVim, and which-key pops up rig
 | `Ctrl Space` / `Tab` / `Enter` | Completion: open / accept |
 | `Space /`, `Cmd /`, visual `gc` | Toggle comment (normal `gc`/`gcc` now go to Goto class) |
 | `Space gg` | **LazyGit** (floating) |
-| `Space gd` / `Space gh` | Diffview: working-tree diff / current file history |
+| `Space gd` / `Space gh` | Diffview: working-tree diff (press `Space gd` again to close) / current file history (close with `:DiffviewClose`) |
 | `Space gl` | Blame popup for the current line |
+| `Space gj` / `Space gk` | Next / previous change (git hunk) in the file |
+| `Space gv` | Preview the change (what it was before) |
+| `Space gs` | Stage the change (again to unstage); in visual mode only the selected lines |
+| `Space gx` | Revert the change; in visual mode only the selected lines |
 | `Space x` | Problems tool window (Trouble) |
 | `Space ,` | Open tabs (buffer picker) |
 | `Space .` | Resume the last Telescope search |
@@ -141,8 +145,7 @@ Leader is `Space`. `notimeout` is on, like in IdeaVim, and which-key pops up rig
 |---|---|---|
 | (automatic) | treesitter-context | Current class/method signature stays pinned at the top while scrolling (IntelliJ sticky lines) |
 | `af` / `if`, `ac` / `ic`, `aa` / `ia` | treesitter-textobjects | Function / class / parameter text objects: `daf` delete method, `vic` select class body, `cia` change argument |
-| `]m` / `[m`, `]M` / `[M` | treesitter-textobjects | Next / previous method start, method end |
-| `]c` / `[c` | treesitter-textobjects | Next / previous class |
+| `Ctrl j` / `Ctrl k` (or `]m` / `[m`), `]M` / `[M` | treesitter-textobjects | Next / previous method start, method end |
 | `Space n`, `]t` / `[t` | todo-comments | List all TODO/FIXME (IntelliJ TODO window); jump to next / previous |
 | `Space U` | undotree | Undo history tree (roughly IntelliJ Local History) |
 | `-` | oil.nvim | Open the current file's folder as an editable buffer: rename/delete/move files by editing lines, `:w` applies |

@@ -34,8 +34,9 @@ return {
         ["[m"] = { move.goto_previous_start, "@function.outer", "Previous method" },
         ["]M"] = { move.goto_next_end, "@function.outer", "Next method end" },
         ["[M"] = { move.goto_previous_end, "@function.outer", "Previous method end" },
-        ["]c"] = { move.goto_next_start, "@class.outer", "Next class" },
-        ["[c"] = { move.goto_previous_start, "@class.outer", "Previous class" },
+        -- Bracket-free versions (brackets are awkward on a Corne)
+        ["<C-j>"] = { move.goto_next_start, "@function.outer", "Next method" },
+        ["<C-k>"] = { move.goto_previous_start, "@function.outer", "Previous method" },
       }
       for lhs, m in pairs(motions) do
         vim.keymap.set({ "n", "x", "o" }, lhs, function()

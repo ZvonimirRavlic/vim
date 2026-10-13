@@ -1,22 +1,28 @@
 -- Helpers that emulate IntelliJ editor/tab actions
 local M = {}
 
+-- A buffer shown as a tab: project files, but also library classes (jdt://, buftype=nofile)
+local function is_tab_buffer(buf)
+  local buftype = vim.bo[buf].buftype
+  return vim.bo[buf].buflisted and buftype ~= "terminal" and buftype ~= "quickfix" and buftype ~= "help"
+end
+
 local function is_editor_window(win)
   if vim.api.nvim_win_get_config(win).relative ~= "" then
     return false
   end
   local buf = vim.api.nvim_win_get_buf(win)
-  return vim.bo[buf].buftype == "" and vim.bo[buf].filetype ~= "NvimTree"
+  return is_tab_buffer(buf) and vim.bo[buf].filetype ~= "NvimTree"
 end
 
 -- Another listed buffer to show in place of `buf` (prefers the alternate file)
 local function other_listed(buf)
   local alt = vim.fn.bufnr("#")
-  if alt > 0 and alt ~= buf and vim.bo[alt].buflisted then
+  if alt > 0 and alt ~= buf and is_tab_buffer(alt) then
     return alt
   end
   for _, b in ipairs(vim.api.nvim_list_bufs()) do
-    if b ~= buf and vim.bo[b].buflisted and vim.bo[b].buftype == "" then
+    if b ~= buf and is_tab_buffer(b) then
       return b
     end
   end
@@ -28,12 +34,12 @@ function M.close_buffer(buf)
   if buf == nil or buf == 0 then
     buf = vim.api.nvim_get_current_buf()
   end
-  if vim.bo[buf].buftype ~= "" then
+  if not is_tab_buffer(buf) then
     -- Tool windows (terminal, tree, help...) just get hidden
     pcall(vim.cmd.close)
     return
   end
-  if vim.bo[buf].modified and vim.api.nvim_buf_get_name(buf) ~= "" then
+  if vim.bo[buf].buftype == "" and vim.bo[buf].modified and vim.api.nvim_buf_get_name(buf) ~= "" then
     vim.api.nvim_buf_call(buf, function()
       vim.cmd("silent! write")
     end)
