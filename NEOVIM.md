@@ -80,7 +80,7 @@ Leader is `Space`. `notimeout` is on, like in IdeaVim, and which-key pops up rig
 | `gf` | GotoFile | Telescope find_files (hidden files included) | ✅ |
 | `gr` | GotoRelated | Java/Kotlin: `Foo` ↔ `FooTest`/`FooTests`/`FooIT`. Other languages: sibling files with the same stem (`x.component.ts` ↔ `.html`/`.scss`/`.spec.ts`) | ≈ |
 | `gc` | ActivateAIAssistantToolWindow | changed on request: `gc` is now **Goto class** (same as `gn`) | ❌ |
-| `Ctrl t` | NERDTree | `:NvimTreeToggle` | ✅ |
+| `Ctrl t` | NERDTree | `:NvimTreeToggle`. Inside the tree: `j/k` move, `l` opens a file / expands a folder, `h` collapses / goes to the parent, `a` new, `r` rename, `d` delete, `g?` all keys | ✅ |
 | `Ctrl d` / `Ctrl u` | half page + `zz` | same | ✅ |
 | `Space rn` | RenameElement | LSP rename | ✅ |
 | `Space rm` | ExtractMethod | jdtls extract method (normal and visual); other languages use an LSP extract code action | ✅ |

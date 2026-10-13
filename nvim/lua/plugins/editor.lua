@@ -9,6 +9,29 @@ return {
       filters = { dotfiles = false, git_ignored = false },
       renderer = { group_empty = true },
       actions = { open_file = { quit_on_open = false } },
+      -- Default tree keys, plus l = open / expand and h = collapse / go to parent (hjkl only)
+      on_attach = function(bufnr)
+        local api = require("nvim-tree.api")
+        local default = (api.map and api.map.on_attach and api.map.on_attach.default) or api.config.mappings.default_on_attach
+        default(bufnr)
+        local function is_dir(node)
+          return node ~= nil and node.nodes ~= nil
+        end
+        vim.keymap.set("n", "l", function()
+          local node = api.tree.get_node_under_cursor()
+          if not (is_dir(node) and node.open) then
+            api.node.open.edit()
+          end
+        end, { buffer = bufnr, nowait = true, desc = "Open file / expand folder" })
+        vim.keymap.set("n", "h", function()
+          local node = api.tree.get_node_under_cursor()
+          if is_dir(node) and node.open then
+            api.node.open.edit()
+          else
+            api.node.navigate.parent_close()
+          end
+        end, { buffer = bufnr, nowait = true, desc = "Collapse folder / go to parent" })
+      end,
     },
   },
 
